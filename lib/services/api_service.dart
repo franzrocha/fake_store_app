@@ -32,6 +32,7 @@ class ApiService {
         }
       }
       return products;
+    // ignore: avoid_print, invalid_return_type_for_catch_error
     }).catchError((err) => print(err));
   }
 

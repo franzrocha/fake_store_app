@@ -1,9 +1,12 @@
-import '../screens/products_by_category.dart';
 import 'package:flutter/material.dart';
+import 'package:get_it/get_it.dart';
 import '../services/api_service.dart';
+import 'products_by_category.dart';
 
 class AllCategoryScreen extends StatelessWidget {
   const AllCategoryScreen({Key? key}) : super(key: key);
+
+  ApiService get service => GetIt.I<ApiService>();
 
   @override
   Widget build(BuildContext context) {
@@ -14,7 +17,7 @@ class AllCategoryScreen extends StatelessWidget {
         backgroundColor: Colors.red,
       ),
       body: FutureBuilder(
-        future: getAllCategories(),
+         future: service.getAllCategories(),
         builder: (BuildContext context, AsyncSnapshot snapshot) {
           if (!snapshot.hasData) {
             return const Center(child: CircularProgressIndicator());
@@ -34,7 +37,7 @@ class AllCategoryScreen extends StatelessWidget {
                       context,
                       MaterialPageRoute(
                         builder: (_) => ProductsByCategoryScreen(
-                          categoryName: categoryName,
+                          categoryName: categories[index],
                         ),
                       ),
                     ),
@@ -42,7 +45,7 @@ class AllCategoryScreen extends StatelessWidget {
                       padding: const EdgeInsets.all(40),
                       child: Center(
                         child: Text(
-                          categoryName,
+                          categories[index].toString().toUpperCase(),
                           style: const TextStyle(
                             fontSize: 25,
                           ),
