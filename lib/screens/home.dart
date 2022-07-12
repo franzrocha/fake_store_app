@@ -4,6 +4,7 @@ import '../models/product.dart';
 import '../services/api_service.dart';
 import 'all_category.dart';
 import 'cart_screen.dart';
+import 'login_screen.dart';
 import 'product_detail.dart';
 
 class HomeScreen extends StatelessWidget {
@@ -36,6 +37,7 @@ class HomeScreen extends StatelessWidget {
               ),
             ),
           ),
+
         ],
       ),
       body: Center(
@@ -58,7 +60,7 @@ class HomeScreen extends StatelessWidget {
                       height: 50,
                       width: 50,
                     ),
-                    subtitle: Text('${product.price}'),
+                   subtitle: Text('\$${product.price}'),
                     onTap: () {
                       Navigator.push(
                         context,

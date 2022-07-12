@@ -1,3 +1,5 @@
+// ignore_for_file: invalid_return_type_for_catch_error
+
 import 'dart:convert';
 import 'package:http/http.dart' as http;
 import '../models/cart.dart';
@@ -9,20 +11,11 @@ import '../models/user_login.dart';
 class ApiService {
   static const String baseUrl = 'https://fakestoreapi.com';
 
-   Future<dynamic> login(String username, String password) {
-    final credentials = UserLogin(username: username, password: password);
-    return http
-        .post(Uri.parse('$baseUrl/auth/login'), body: credentials.toJson())
-        .then((data) {
-      if (data.statusCode == 200) {
-        final jsonData = json.decode(data.body);
-        return jsonData;
-      }
-    }).catchError((err) => print(err));
-  }
+  static const headers = {'Content-type': 'application/json'};
+
 
   Future<List<Product>> getAllProducts() async {
-    return http.get(Uri.parse('$baseUrl/products')).then((data) {
+    return http.get(Uri.parse('$baseUrl/products'), headers: headers).then((data) {
       final products = <Product>[];
       if (data.statusCode == 200) {
         final jsonData = json.decode(data.body);
@@ -32,12 +25,11 @@ class ApiService {
         }
       }
       return products;
-    // ignore: avoid_print, invalid_return_type_for_catch_error
     }).catchError((err) => print(err));
   }
 
   Future<Product?> getProduct(int id) {
-    return http.get(Uri.parse('$baseUrl/products/$id')).then((data) {
+    return http.get(Uri.parse('$baseUrl/products/$id'), headers: headers).then((data) {
       if (data.statusCode == 200) {
         final jsonData = json.decode(data.body);
         return Product.fromJson(jsonData);
@@ -48,7 +40,7 @@ class ApiService {
 
    Future<List<Product>> getProductsByCategory(String categoryName) {
     return http
-        .get(Uri.parse('$baseUrl/products/category/$categoryName'))
+        .get(Uri.parse('$baseUrl/products/category/$categoryName'), headers: headers)
         .then((data) {
       final products = <Product>[];
       if (data.statusCode == 200) {
@@ -63,7 +55,7 @@ class ApiService {
   }
 
   Future<List<String>> getAllCategories() {
-    return http.get(Uri.parse('$baseUrl/products/categories')).then((data) {
+    return http.get(Uri.parse('$baseUrl/products/categories'), headers: headers).then((data) {
       final categories = <String>[];
       if (data.statusCode == 200) {
         final jsonData = json.decode(data.body);
@@ -77,7 +69,7 @@ class ApiService {
   }
 
 Future<Cart?> getCart(String id) {
-    return http.get(Uri.parse('$baseUrl/carts/$id')).then((data) {
+    return http.get(Uri.parse('$baseUrl/carts/$id'), headers: headers).then((data) {
       if (data.statusCode == 200) {
         final jsonData = json.decode(data.body);
         return Cart.fromJson(jsonData);
@@ -93,7 +85,7 @@ Future<Cart?> getCart(String id) {
     ]);
     return http
         .put(Uri.parse('$baseUrl/carts/$cartId'),
-            body: json.encode(cartUpdate.toJson()))
+            body: json.encode(cartUpdate.toJson()), headers: headers)
         .then((data) {
       if (data.statusCode == 200) {
         final jsonData = json.decode(data.body);
@@ -103,10 +95,22 @@ Future<Cart?> getCart(String id) {
   }
 
   Future<void> deleteCart(String cartId) {
-    return http.delete(Uri.parse('$baseUrl/carts/$cartId')).then((data) {
+    return http.delete(Uri.parse('$baseUrl/carts/$cartId'), headers: headers).then((data) {
       if (data.statusCode == 200) {
         final jsonData = json.decode(data.body);
         print(jsonData);
+      }
+    }).catchError((err) => print(err));
+  }
+
+  Future<dynamic> login(String username, String password) {
+    final credentials = UserLogin(username: username, password: password);
+    return http
+        .post(Uri.parse('$baseUrl/auth/login'), body: credentials.toJson())
+        .then((data) {
+      if (data.statusCode == 200) {
+        final jsonData = json.decode(data.body);
+        return jsonData;
       }
     }).catchError((err) => print(err));
   }
