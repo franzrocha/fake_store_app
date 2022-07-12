@@ -3,7 +3,7 @@
 import 'dart:convert';
 import 'package:http/http.dart' as http;
 import '../models/cart.dart';
-import '../models/cart_update.dart';
+import '../models/update_cart.dart';
 import '../models/product.dart';
 import '../models/user_login.dart';
 
@@ -80,7 +80,7 @@ Future<Cart?> getCart(String id) {
 
   Future<void> updateCart(int cartId, int productId) {
     final cartUpdate =
-        CartUpdate(userId: cartId, date: DateTime.now(), products: [
+        UpdateCart(userId: cartId, date: DateTime.now(), products: [
       {'productId': productId, 'quantity': 1}
     ]);
     return http

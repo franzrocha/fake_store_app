@@ -1,18 +1,18 @@
-class CartUpdate {
+class UpdateCart {
   int? id;
   int userId;
   DateTime date;
   List<Map<String, dynamic>> products;
 
-  CartUpdate({
+ UpdateCart({
     this.id,
     required this.userId,
     required this.date,
     required this.products,
   });
 
-  factory CartUpdate.fromJson(Map<String, dynamic> data) {
-    return CartUpdate(
+  factory UpdateCart.fromJson(Map<String, dynamic> data) {
+    return UpdateCart(
         id: data['id'],
         userId: data['userId'],
         date: data['date'],
